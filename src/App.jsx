@@ -1,5 +1,7 @@
+import { Carousel } from './components/Carousel';
+
 import './styles/global.scss';
 
-export function App(){
-    return <h1>Hello React JS</h1>
+export function App() {
+    return <Carousel />
 }
