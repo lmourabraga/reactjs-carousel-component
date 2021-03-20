@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
     margin: 0 auto;
 `;
 
-export const Gallery = styled.div`
+export const Gallery = styled.ul`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,26 +14,34 @@ export const Gallery = styled.div`
     height: 500px;
     width: 500px;
 
-    .activated{
-        display: flex;
-    }
-
-    div{
+    li{
         display: none;
         align-items: center;
         flex-direction: column;
         justify-content: center;
     
         height: 500px;
-        width: 500px;
+        width: 500px; 
         border: 1px solid #fff;
-        transition: 5s;
+        opacity: 0;
 
-
-        & + :nth-child(1){
+        &.activated{
             display: flex;
+            opacity: 1;
+            animation-name: example;
+            animation-duration: 1s;  
+        }
+
+        @keyframes example {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     }
+
 `;
 
 export const Control = styled.div`

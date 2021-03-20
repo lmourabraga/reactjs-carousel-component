@@ -7,66 +7,89 @@ import {
 } from 'react-icons/fa';
 
 export const Carousel = (props) => {
+    const [current, setCurrent] = useState(1);
+
+    const [initialPosition, setInitialPosition] = useState(null);
+    const [endingPosition, setEndingPosition] = useState(null);
+    const [resultPosition, setResultPosition] = useState(null);
 
     const items = props.children;
 
     const totalItems = items.length;
 
-    console.log(totalItems);
+    const dots = [];
 
-    const [current, setCurrent] = useState(1);
-
-    const handleClick = (action) => {
-        if (action === 'next') {
-            current >= totalItems ? setCurrent(1) : setCurrent(current + 1);
-        } else {
-            current <= 1 ? setCurrent(totalItems) : setCurrent(current - 1);
-        }
-
-        const getElement = document.getElementById(current);
-        const classNameValue = getElement.classList.value;
-
-        if (classNameValue === "activated") {
-            getElement.classList.toggle("activated");
-        }
+    for (let i = 0; i < totalItems; i++) {
+        dots.push(
+            <li key={i + 1}>
+                <button
+                    id={i + 1}
+                    className={current === i + 1 ? "control-dot-activated" : undefined}
+                    onClick={() => handleDotNavigation(i + 1)} />
+            </li>
+        )
     }
 
-    const handleSelectedItem = (item) => {
-        const getElement = document.getElementById(current);
-        const classNameValue = getElement.classList.value;
+    const getCurrentItem = document.getElementById(current);
+
+    const handleDotNavigation = (item) => {
+        const classNameValue = getCurrentItem.classList.value;
 
         if (classNameValue === "activated" && current !== item) {
-            getElement.classList.toggle("activated");
+            getCurrentItem.classList.toggle("activated");
 
             setCurrent(item);
         }
     }
 
+    const handleClick = (action) => {
+        switch (action) {
+            case "next":
+                current >= totalItems ? setCurrent(1) : setCurrent(current + 1);
+                break;
+            case "back":
+                current <= 1 ? setCurrent(totalItems) : setCurrent(current - 1);
+        }
+
+        getCurrentItem.classList.toggle("activated");
+    }
+
+    useEffect(() => {
+        const getSwipedElement = document.getElementById("swipe");
+
+        getSwipedElement.addEventListener('touchstart', function (e) {
+            setInitialPosition(e.touches[0].clientX);
+        }, false);
+
+        getSwipedElement.addEventListener('touchend', function (e) {
+            setEndingPosition(e.changedTouches[0].clientX);
+        }, false);
+    }, []);
+
+    useEffect(() => {
+        setResultPosition(initialPosition - endingPosition);
+        setEndingPosition(null);
+        setInitialPosition(null);
+
+        if (resultPosition > 0) {
+            handleClick('next');
+        } else if (resultPosition < 0) {
+            handleClick('back');
+        }
+    }, [endingPosition]);
+
     useEffect(() => {
         document.getElementById(current).classList.add("activated");
     }, [current]);
 
-    const dots = [];
-
-    for (let i = 0; i < totalItems; i++) {
-        dots.push(
-            <li>
-                <button
-                    id={i + 1}
-                    className={current === i + 1 && "control-dot-activated"}
-                    onClick={() => handleSelectedItem(i + 1)} />
-            </li>
-        )
-    }
-
     return (
         <Wrapper>
-            <Gallery>
+            <Gallery id="swipe">
                 {Children.map(items, (item, i) => {
                     return (
-                        <div id={i + 1} key={i + 1}>
+                        <li id={i + 1}>
                             {item}
-                        </div>
+                        </li>
                     )
                 })}
             </Gallery>
