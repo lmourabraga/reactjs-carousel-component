@@ -11,7 +11,7 @@ export const Carousel = (props) => {
     const [current, setCurrent] = useState(1);
 
     /** Declaring states for clientX property which returns the horizontal coordinate
-     * when user swipe a carousel item */;
+     * when user swipe a carousel item */
     const [initialPosition, setInitialPosition] = useState(null);
     const [endingPosition, setEndingPosition] = useState(null);
     const [resultPosition, setResultPosition] = useState(null);
