@@ -99,12 +99,12 @@ export const Carousel = (props) => {
 
     return (
         <Wrapper>
-            <Gallery>
+            <Gallery id="swipe">
                 {Children.map(items, (item, i) => {
                     return (
-                        <div id={i + 1} key={i + 1}>
+                        <li id={i + 1}>
                             {item}
-                        </div>
+                        </li>
                     )
                 })}
             </Gallery>
