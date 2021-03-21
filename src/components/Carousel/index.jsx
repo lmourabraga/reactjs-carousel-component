@@ -7,18 +7,26 @@ import {
 } from 'react-icons/fa';
 
 export const Carousel = (props) => {
+    /** A state to get the active carousel item */
     const [current, setCurrent] = useState(1);
 
+    /** Declaring states for clientX property which returns the horizontal coordinate
+     * when user swipe a carousel item */
     const [initialPosition, setInitialPosition] = useState(null);
     const [endingPosition, setEndingPosition] = useState(null);
     const [resultPosition, setResultPosition] = useState(null);
 
+    /** Declaring props as items to loop through them in order to 
+     * create the carousel items */
     const items = props.children;
 
+    /** Declaring the number of items as totalItems to create the dot navigation */
     const totalItems = items.length;
 
+    /** Initializing the dot navigation as an empty array */
     const dots = [];
 
+    /** Loops through the totalItems and push into dots array to create de dot navigation */
     for (let i = 0; i < totalItems; i++) {
         dots.push(
             <li key={i + 1}>
@@ -30,8 +38,10 @@ export const Carousel = (props) => {
         )
     }
 
+    /** Getting the current element */
     const getCurrentItem = document.getElementById(current);
 
+    /** A function to handle onClick action on the dot navigation */
     const handleDotNavigation = (item) => {
         const classNameValue = getCurrentItem.classList.value;
 
@@ -42,6 +52,7 @@ export const Carousel = (props) => {
         }
     }
 
+    /** A function to handle onClick action on the arrow and swipe navigation */
     const handleClick = (action) => {
         switch (action) {
             case "next":
@@ -54,6 +65,7 @@ export const Carousel = (props) => {
         getCurrentItem.classList.toggle("activated");
     }
 
+    /** Handles the swipe action on mobile devices */
     useEffect(() => {
         const getSwipedElement = document.getElementById("swipe");
 
@@ -66,6 +78,8 @@ export const Carousel = (props) => {
         }, false);
     }, []);
 
+    /** Calculates the swipes action based on the clientX property to identify the swipe's side
+     * and handle which item to display */
     useEffect(() => {
         setResultPosition(initialPosition - endingPosition);
         setEndingPosition(null);
@@ -78,6 +92,7 @@ export const Carousel = (props) => {
         }
     }, [endingPosition]);
 
+    /** Actives the carousel item based on current state */
     useEffect(() => {
         document.getElementById(current).classList.add("activated");
     }, [current]);
