@@ -7,6 +7,9 @@ import {
 } from 'react-icons/fa';
 
 export const Carousel = (props) => {
+    /** Generates an id to each carousel displayed on the screen */
+    const [uniqueId, setUniqueId] = useState(Math.floor(Math.random() * 1000));
+
     /** A state to get the active carousel item */
     const [current, setCurrent] = useState(1);
 
@@ -22,6 +25,8 @@ export const Carousel = (props) => {
 
     /** Declaring the number of items as totalItems to create the dot navigation */
     const totalItems = items.length;
+
+    console.log(totalItems);
 
     /** Initializing the dot navigation as an empty array */
     const dots = [];
@@ -39,7 +44,7 @@ export const Carousel = (props) => {
     }
 
     /** Getting the current element */
-    const getCurrentItem = document.getElementById(current);
+    const getCurrentItem = document.querySelector(`div[id="${uniqueId}"] ul#swipe li[id="${current}"]`);
 
     /** A function to handle onClick action on the dot navigation */
     const handleDotNavigation = (item) => {
@@ -67,7 +72,7 @@ export const Carousel = (props) => {
 
     /** Handles the swipe action on mobile devices */
     useEffect(() => {
-        const getSwipedElement = document.getElementById("swipe");
+        const getSwipedElement = document.querySelector(`div[id="${uniqueId}"] ul#swipe`);
 
         getSwipedElement.addEventListener('touchstart', function (e) {
             setInitialPosition(e.touches[0].clientX);
@@ -94,11 +99,11 @@ export const Carousel = (props) => {
 
     /** Actives the carousel item based on current state */
     useEffect(() => {
-        document.getElementById(current).classList.add("activated");
+        document.querySelector(`div[id="${uniqueId}"] ul#swipe li[id="${current}"]`).classList.add("activated");
     }, [current]);
 
     return (
-        <Wrapper>
+        <Wrapper id={uniqueId}>
             <Gallery id="swipe">
                 {Children.map(items, (item, i) => {
                     return (
@@ -125,6 +130,8 @@ export const Carousel = (props) => {
                     </button>
                 </div>
             </Control>
+
+
         </Wrapper>
     )
 };
