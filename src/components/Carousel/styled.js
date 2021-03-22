@@ -21,8 +21,12 @@ export const Gallery = styled.ul`
         height: 500px;
         max-width: 500px;
         width: 100%; 
-        border: 1px solid #fff;
         opacity: 0;
+
+        border-radius: 10px;
+        -webkit-box-shadow: 2px 3px 58px -20px rgba(255,255,255, 0.80);
+        -moz-box-shadow: 2px 3px 58px -20px rgba(255,255,255, 0.80);
+        box-shadow: 2px 3px 58px -20px rgba(255,255,255, 0.80);
 
         &.activated{
             display: block;
