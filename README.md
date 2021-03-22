@@ -1,4 +1,4 @@
-#ReactJS Carousel Component
+# ReactJS Carousel Component
 
 A ReactJS App configured with Webpack and Babel from scratch.
 
