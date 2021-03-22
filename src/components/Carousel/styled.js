@@ -2,37 +2,36 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
     height: 500px;
-    width: 500px;
-    margin: 0 auto;
+    width: 100%; 
+    max-width: 500px;
+    margin: 50px 0;
+    padding: 0 25px;
 `;
 
 export const Gallery = styled.ul`
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     height: 500px;
-    width: 500px;
 
     li{
         display: none;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
     
         height: 500px;
-        width: 500px; 
+        max-width: 500px;
+        width: 100%; 
         border: 1px solid #fff;
         opacity: 0;
 
         &.activated{
-            display: flex;
+            display: block;
             opacity: 1;
-            animation-name: example;
-            animation-duration: 1s;  
+            animation-name: fadeEffect;
+            animation-duration: 0.3s;  
         }
 
-        @keyframes example {
+        @keyframes fadeEffect {
             from {
                 opacity: 0;
             }
@@ -45,6 +44,24 @@ export const Gallery = styled.ul`
 `;
 
 export const Control = styled.div`
+
+    button{
+        cursor: pointer;
+        display: flex;
+        padding: 6px;
+        border-radius: 50%;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: 0.2s;
+
+        &:hover{
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        &:focus{
+            outline: unset;
+        }
+    }
 
     div.control-dots{
         margin-top: 10px;
@@ -62,6 +79,10 @@ export const Control = styled.div`
             border: 1px solid #fff;
             background-color: transparent;
             cursor: pointer;
+
+            &:hover{
+                background-color: #fff;
+            }
         }
     }
 
@@ -73,17 +94,12 @@ export const Control = styled.div`
     }
 
     div.control-arrows{
-        margin-top: -60%;
+        margin-top: -65%;
         padding: 0 6px;
         justify-content: space-between;
-    }
 
-    button{
-        cursor: pointer;
-        display: flex;
-        padding: 6px;
-        border-radius: 50%;
-        border: none;
-        background-color: rgba(255, 255, 255, 0.5);
+        @media(max-width: 499px) {
+            display: none;
+        }
     }
 `;

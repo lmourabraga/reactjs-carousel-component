@@ -7,18 +7,31 @@ import {
 } from 'react-icons/fa';
 
 export const Carousel = (props) => {
+    /** Generates an id to each carousel displayed on the screen */
+    const [uniqueId, setUniqueId] = useState(Math.floor(Math.random() * 1000));
+
+    /** A state to get the active carousel item */
     const [current, setCurrent] = useState(1);
 
+    /** Declaring states for clientX property which returns the horizontal coordinate
+     * when user swipe a carousel item */
     const [initialPosition, setInitialPosition] = useState(null);
     const [endingPosition, setEndingPosition] = useState(null);
     const [resultPosition, setResultPosition] = useState(null);
 
+    /** Declaring props as items to loop through them in order to 
+     * create the carousel items */
     const items = props.children;
 
+    /** Declaring the number of items as totalItems to create the dot navigation */
     const totalItems = items.length;
 
+    console.log(totalItems);
+
+    /** Initializing the dot navigation as an empty array */
     const dots = [];
 
+    /** Loops through the totalItems and push into dots array to create de dot navigation */
     for (let i = 0; i < totalItems; i++) {
         dots.push(
             <li key={i + 1}>
@@ -30,8 +43,10 @@ export const Carousel = (props) => {
         )
     }
 
-    const getCurrentItem = document.getElementById(current);
+    /** Getting the current element */
+    const getCurrentItem = document.querySelector(`div[id="${uniqueId}"] ul#swipe li[id="${current}"]`);
 
+    /** A function to handle onClick action on the dot navigation */
     const handleDotNavigation = (item) => {
         const classNameValue = getCurrentItem.classList.value;
 
@@ -42,6 +57,7 @@ export const Carousel = (props) => {
         }
     }
 
+    /** A function to handle onClick action on the arrow and swipe navigation */
     const handleClick = (action) => {
         switch (action) {
             case "next":
@@ -54,8 +70,9 @@ export const Carousel = (props) => {
         getCurrentItem.classList.toggle("activated");
     }
 
+    /** Handles the swipe action on mobile devices */
     useEffect(() => {
-        const getSwipedElement = document.getElementById("swipe");
+        const getSwipedElement = document.querySelector(`div[id="${uniqueId}"] ul#swipe`);
 
         getSwipedElement.addEventListener('touchstart', function (e) {
             setInitialPosition(e.touches[0].clientX);
@@ -66,6 +83,8 @@ export const Carousel = (props) => {
         }, false);
     }, []);
 
+    /** Calculates the swipes action based on the clientX property to identify the swipe's side
+     * and handle which item to display */
     useEffect(() => {
         setResultPosition(initialPosition - endingPosition);
         setEndingPosition(null);
@@ -78,12 +97,13 @@ export const Carousel = (props) => {
         }
     }, [endingPosition]);
 
+    /** Actives the carousel item based on current state */
     useEffect(() => {
-        document.getElementById(current).classList.add("activated");
+        document.querySelector(`div[id="${uniqueId}"] ul#swipe li[id="${current}"]`).classList.add("activated");
     }, [current]);
 
     return (
-        <Wrapper>
+        <Wrapper id={uniqueId}>
             <Gallery id="swipe">
                 {Children.map(items, (item, i) => {
                     return (
@@ -110,6 +130,8 @@ export const Carousel = (props) => {
                     </button>
                 </div>
             </Control>
+
+
         </Wrapper>
     )
 };
