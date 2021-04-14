@@ -35,11 +35,8 @@ export const Carousel = (props) => {
         getItem[currentNextSlide].className = "carousel__item";
 
         getDot[currentSlide].className = "carousel__dot";
-        // Set 'moving' to true for the same duration as our transition.
-        // (0.5s = 500ms)
-
+        
         setIsMoving(true);
-        // setTimeout runs its function once after the given time
         setTimeout(function () {
             setIsMoving(false);
         }, 500);
