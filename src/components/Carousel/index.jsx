@@ -1,137 +1,107 @@
-import { useState, useEffect, Children } from 'react';
-import { Wrapper, Gallery, Control } from './styled';
-
 import {
-    FaChevronLeft,
-    FaChevronRight,
-} from 'react-icons/fa';
+    Children,
+    useEffect,
+    useState,
+} from 'react';
+import {
+    Wrapper,
+    Controls
+} from './styled';
 
 export const Carousel = (props) => {
-    /** Generates an id to each carousel displayed on the screen */
-    const [uniqueId, setUniqueId] = useState(Math.floor(Math.random() * 1000));
-
-    /** A state to get the active carousel item */
-    const [current, setCurrent] = useState(1);
-
-    /** Declaring states for clientX property which returns the horizontal coordinate
-     * when user swipe a carousel item */
-    const [initialPosition, setInitialPosition] = useState(null);
-    const [endingPosition, setEndingPosition] = useState(null);
-    const [resultPosition, setResultPosition] = useState(null);
-
-    /** Declaring props as items to loop through them in order to 
-     * create the carousel items */
     const items = props.children;
-
-    /** Declaring the number of items as totalItems to create the dot navigation */
     const totalItems = items.length;
 
-    console.log(totalItems);
+    const [isMoving, setIsMoving] = useState(false);
 
-    /** Initializing the dot navigation as an empty array */
-    const dots = [];
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [currentNextSlide, setCurrentNextSlide] = useState(currentSlide + 1);
+    const [currentPreviousSlide, setCurrentPreviousSlide] = useState(totalItems - 1);
 
-    /** Loops through the totalItems and push into dots array to create de dot navigation */
-    for (let i = 0; i < totalItems; i++) {
-        dots.push(
-            <li key={i + 1}>
-                <button
-                    id={i + 1}
-                    className={current === i + 1 ? "control-dot-activated" : undefined}
-                    onClick={() => handleDotNavigation(i + 1)} />
-            </li>
-        )
-    }
+    const getItem = document.getElementsByClassName("carousel__item");
 
-    /** Getting the current element */
-    const getCurrentItem = document.querySelector(`div[id="${uniqueId}"] ul#swipe li[id="${current}"]`);
+    useEffect(() => {
+        getItem[currentSlide].className = "carousel__item";
+        getItem[currentPreviousSlide].className = "carousel__item";
+        getItem[currentNextSlide].className = "carousel__item";
 
-    /** A function to handle onClick action on the dot navigation */
-    const handleDotNavigation = (item) => {
-        const classNameValue = getCurrentItem.classList.value;
+        getItem[currentSlide].classList.add("active");
+        getItem[currentPreviousSlide].classList.add("prev");
+        getItem[currentNextSlide].classList.add("next");
+    }, [currentSlide, currentPreviousSlide, currentNextSlide]);
 
-        if (classNameValue === "activated" && current !== item) {
-            getCurrentItem.classList.toggle("activated");
+    const handleNextSlide = (value) => {
 
-            setCurrent(item);
+        disableNavigation();
+
+        if (!isMoving) {
+            if (value === (totalItems - 1)) {
+                setCurrentSlide(0);
+                setCurrentNextSlide(1);
+                setCurrentPreviousSlide(totalItems - 1);
+            } else if (value === (totalItems - 2)) {
+                setCurrentSlide(value + 1);
+                setCurrentNextSlide(0);
+                setCurrentPreviousSlide(value);
+            } else {
+                setCurrentSlide(value + 1);
+                setCurrentNextSlide(value + 2);
+                setCurrentPreviousSlide(value);
+            }
         }
     }
 
-    /** A function to handle onClick action on the arrow and swipe navigation */
-    const handleClick = (action) => {
-        switch (action) {
-            case "next":
-                current >= totalItems ? setCurrent(1) : setCurrent(current + 1);
-                break;
-            case "back":
-                current <= 1 ? setCurrent(totalItems) : setCurrent(current - 1);
-        }
+    const handlePreviousSlide = (value) => {
 
-        getCurrentItem.classList.toggle("activated");
+        disableNavigation();
+
+        if (!isMoving) {
+            if (value === 0) {
+                setCurrentSlide(totalItems - 1);
+                setCurrentNextSlide(0);
+                setCurrentPreviousSlide(totalItems - 2);
+
+            } else if (value === 1) {
+                setCurrentSlide(value - 1);
+                setCurrentPreviousSlide(totalItems - 1);
+                setCurrentNextSlide(value);
+            } else {
+                setCurrentSlide(value - 1);
+                setCurrentPreviousSlide(currentPreviousSlide - 1);
+                setCurrentNextSlide(value);
+            }
+        }
     }
 
-    /** Handles the swipe action on mobile devices */
-    useEffect(() => {
-        const getSwipedElement = document.querySelector(`div[id="${uniqueId}"] ul#swipe`);
+    const disableNavigation = () => {
+        // Set 'moving' to true for the same duration as our transition.
+        // (0.5s = 500ms)
 
-        getSwipedElement.addEventListener('touchstart', function (e) {
-            setInitialPosition(e.touches[0].clientX);
-        }, false);
-
-        getSwipedElement.addEventListener('touchend', function (e) {
-            setEndingPosition(e.changedTouches[0].clientX);
-        }, false);
-    }, []);
-
-    /** Calculates the swipes action based on the clientX property to identify the swipe's side
-     * and handle which item to display */
-    useEffect(() => {
-        setResultPosition(initialPosition - endingPosition);
-        setEndingPosition(null);
-        setInitialPosition(null);
-
-        if (resultPosition > 0) {
-            handleClick('next');
-        } else if (resultPosition < 0) {
-            handleClick('back');
-        }
-    }, [endingPosition]);
-
-    /** Actives the carousel item based on current state */
-    useEffect(() => {
-        document.querySelector(`div[id="${uniqueId}"] ul#swipe li[id="${current}"]`).classList.add("activated");
-    }, [current]);
+        setIsMoving(true);
+        // setTimeout runs its function once after the given time
+        setTimeout(function () {
+            setIsMoving(false);
+        }, 500);
+    }
 
     return (
-        <Wrapper id={uniqueId}>
-            <Gallery id="swipe">
-                {Children.map(items, (item, i) => {
+        <Wrapper>
+            <ul className="carousel">
+                {Children.map(items, (item) => {
                     return (
-                        <li id={i + 1}>
+                        <li className="carousel__item">
                             {item}
                         </li>
                     )
                 })}
-            </Gallery>
-
-            <Control>
-                <div className="control-dots">
-                    <ul>
-                        {dots}
-                    </ul>
-                </div>
-
-                <div className="control-arrows">
-                    <button onClick={() => handleClick('back')}>
-                        <FaChevronLeft />
-                    </button>
-                    <button onClick={() => handleClick('next')}>
-                        <FaChevronRight />
-                    </button>
-                </div>
-            </Control>
 
 
+            </ul>
+
+            <Controls>
+                <div className="carousel__button--next" onClick={() => handleNextSlide(currentSlide)}></div>
+                <div className="carousel__button--prev" onClick={() => handlePreviousSlide(currentSlide)}></div>
+            </Controls>
         </Wrapper>
     )
 };

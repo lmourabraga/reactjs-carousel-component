@@ -9,7 +9,7 @@ export const Item = styled.div`
     height: 100%;
     width: 100%; 
     padding: 32px;
-    line-break: anywhere;
+    text-align: center;
 
     ${props => props.backgroundImage && css`
         background: url(${props => props.backgroundImage}) rgba(0, 0, 0, 0.5);

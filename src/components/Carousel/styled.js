@@ -1,109 +1,87 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-    height: 500px;
-    width: 100%; 
-    max-width: 500px;
-    margin: 50px 0;
-    padding: 0 25px;
-`;
-
-export const Gallery = styled.ul`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 500px;
-
-    li{
-        display: none;
+    position: relative;
     
+    overflow: hidden;
+    width: 100%;
+    max-width: 600px;
+
+    .carousel-wrapper * {
+        box-sizing: border-box;
+    }
+
+    .carousel {
+       transform-style: preserve-3d;
+    }
+
+    .carousel__item {
         height: 500px;
-        max-width: 500px;
-        width: 100%; 
+
+        list-style-type: none;
         opacity: 0;
-
-        border-radius: 10px;
-        -webkit-box-shadow: 2px 3px 58px -20px rgba(255,255,255, 0.80);
-        -moz-box-shadow: 2px 3px 58px -20px rgba(255,255,255, 0.80);
-        box-shadow: 2px 3px 58px -20px rgba(255,255,255, 0.80);
-
-        &.activated{
-            display: block;
-            opacity: 1;
-            animation-name: fadeEffect;
-            animation-duration: 0.3s;  
-        }
-
-        @keyframes fadeEffect {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+        position: absolute;
+        top:0;
+        width: 100%;
+        margin: auto;
+        padding: 1rem 4rem;
+        z-index: 100;
+        transition: transform .5s, opacity .5s, z-index .5s;
     }
 
+    .carousel__item.active {
+        opacity: 1;
+        position: relative;
+        z-index: 900;
+    }
+
+    .carousel__item.prev,
+    .carousel__item.next {
+        z-index: 800;
+    }
+    .carousel__item.prev {
+        transform: translateX(-100%); /* Move 'prev' item to the left */
+    }
+    .carousel__item.next {
+        transform: translateX(100%); /* Move 'next' item to the right */
+    }
 `;
 
-export const Control = styled.div`
-
-    button{
-        cursor: pointer;
-        display: flex;
-        padding: 6px;
+export const Controls = styled.div`
+    .carousel__button--prev,
+    .carousel__button--next {
+        position: absolute;
+        top:50%;
+        width: 3rem;
+        height: 3rem;
+        background-color: #FFF;
+        transform: translateY(-50%);
         border-radius: 50%;
-        border: none;
-        background-color: rgba(255, 255, 255, 0.5);
-        transition: 0.2s;
-
-        &:hover{
-            background-color: rgba(255, 255, 255, 1);
-        }
-
-        &:focus{
-            outline: unset;
-        }
+        cursor: pointer; 
+        z-index: 1001; /* Sit on top of everything */
+        border: 1px solid black;
     }
-
-    div.control-dots{
-        margin-top: 10px;
-
-        ul > li{
-            list-style-type: none;
-            margin-right: 6px;
-        }
-
-        .control-dot-activated{
-            background-color: #fff;
-        }
-
-        button{
-            border: 1px solid #fff;
-            background-color: transparent;
-            cursor: pointer;
-
-            &:hover{
-                background-color: #fff;
-            }
-        }
+    .carousel__button--prev {
+        left:0;
     }
-
-    div.control-dots > ul,
-    div.control-arrows{
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .carousel__button--next {
+        right:0;
     }
-
-    div.control-arrows{
-        margin-top: -65%;
-        padding: 0 6px;
-        justify-content: space-between;
-
-        @media(max-width: 499px) {
-            display: none;
-        }
+    .carousel__button--prev::after,
+    .carousel__button--next::after {
+    content: " ";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        top: 50%;
+        left: 54%;
+        border-right: 2px solid black;
+        border-bottom: 2px solid black;
+        transform: translate(-50%, -50%) rotate(135deg);
+    }
+    .carousel__button--next::after {
+        left: 47%;
+        transform: translate(-50%, -50%) rotate(-45deg);
     }
 `;
+
