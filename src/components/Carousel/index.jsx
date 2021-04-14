@@ -19,22 +19,36 @@ export const Carousel = (props) => {
     const [currentPreviousSlide, setCurrentPreviousSlide] = useState(totalItems - 1);
 
     const getItem = document.getElementsByClassName("carousel__item");
+    const getDot = document.getElementsByClassName("carousel__dot");
 
     useEffect(() => {
+        getItem[currentSlide].classList.add("active");
+        getItem[currentPreviousSlide].classList.add("prev");
+        getItem[currentNextSlide].classList.add("next");
+
+        getDot[currentSlide].classList.add("active");
+    }, [currentSlide, currentPreviousSlide, currentNextSlide]);
+
+    const disableNavigation = () => {
         getItem[currentSlide].className = "carousel__item";
         getItem[currentPreviousSlide].className = "carousel__item";
         getItem[currentNextSlide].className = "carousel__item";
 
-        getItem[currentSlide].classList.add("active");
-        getItem[currentPreviousSlide].classList.add("prev");
-        getItem[currentNextSlide].classList.add("next");
-    }, [currentSlide, currentPreviousSlide, currentNextSlide]);
+        getDot[currentSlide].className = "carousel__dot";
+        // Set 'moving' to true for the same duration as our transition.
+        // (0.5s = 500ms)
+
+        setIsMoving(true);
+        // setTimeout runs its function once after the given time
+        setTimeout(function () {
+            setIsMoving(false);
+        }, 500);
+    }
 
     const handleNextSlide = (value) => {
-
-        disableNavigation();
-
         if (!isMoving) {
+            disableNavigation();
+
             if (value === (totalItems - 1)) {
                 setCurrentSlide(0);
                 setCurrentNextSlide(1);
@@ -52,10 +66,9 @@ export const Carousel = (props) => {
     }
 
     const handlePreviousSlide = (value) => {
-
-        disableNavigation();
-
         if (!isMoving) {
+            disableNavigation();
+
             if (value === 0) {
                 setCurrentSlide(totalItems - 1);
                 setCurrentNextSlide(0);
@@ -73,34 +86,54 @@ export const Carousel = (props) => {
         }
     }
 
-    const disableNavigation = () => {
-        // Set 'moving' to true for the same duration as our transition.
-        // (0.5s = 500ms)
+    const handleDotNavigation = (value) => {
+        if (!isMoving && value !== currentSlide) {
+            disableNavigation();
 
-        setIsMoving(true);
-        // setTimeout runs its function once after the given time
-        setTimeout(function () {
-            setIsMoving(false);
-        }, 500);
+            if (value === totalItems - 1) {
+                setCurrentSlide(value);
+                setCurrentNextSlide(0);
+                setCurrentPreviousSlide(value - 1);
+
+            } else if (value === 0) {
+                setCurrentSlide(value);
+                setCurrentNextSlide(1);
+                setCurrentPreviousSlide(totalItems - 1);
+            } else {
+                setCurrentSlide(value);
+                setCurrentNextSlide(value + 1);
+                setCurrentPreviousSlide(value - 1);
+            }
+        }
     }
 
     return (
         <Wrapper>
             <ul className="carousel">
-                {Children.map(items, (item) => {
+                {Children.map(items, (item, i) => {
                     return (
-                        <li className="carousel__item">
+                        <li key={i + 1} className="carousel__item">
                             {item}
                         </li>
                     )
                 })}
-
-
             </ul>
 
             <Controls>
                 <div className="carousel__button--next" onClick={() => handleNextSlide(currentSlide)}></div>
                 <div className="carousel__button--prev" onClick={() => handlePreviousSlide(currentSlide)}></div>
+
+                <div id="dots">
+                    <ul>
+                        {
+                            [...Array(totalItems)].map((item, i) => (
+                                <li key={i + 1} className="carousel__dot" onClick={() => handleDotNavigation(i)}></li>
+                            )
+                            )
+                        }
+                    </ul>
+                </div>
+
             </Controls>
         </Wrapper>
     )

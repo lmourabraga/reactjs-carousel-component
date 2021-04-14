@@ -12,6 +12,8 @@ export const Wrapper = styled.div`
     }
 
     .carousel {
+        height: 500px;
+
        transform-style: preserve-3d;
     }
 
@@ -82,6 +84,28 @@ export const Controls = styled.div`
     .carousel__button--next::after {
         left: 47%;
         transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    div#dots ul{
+        display: flex;
+        justify-content: center;
+    }
+
+    .carousel__dot{
+        cursor: pointer;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #FFF;
+        border-radius: 10px;
+        list-style-type: none;
+
+        & + li{
+            margin-left: 10px;
+        }
+    }
+
+    .carousel__dot.active{
+        background-color: #FFF;
     }
 `;
 
