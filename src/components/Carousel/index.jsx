@@ -35,7 +35,7 @@ export const Carousel = (props) => {
         getItem[currentNextSlide].className = "carousel__item";
 
         getDot[currentSlide].className = "carousel__dot";
-        
+
         setIsMoving(true);
         setTimeout(function () {
             setIsMoving(false);
@@ -43,6 +43,7 @@ export const Carousel = (props) => {
     }
 
     const handleNextSlide = (value) => {
+
         if (!isMoving) {
             disableNavigation();
 
@@ -120,17 +121,14 @@ export const Carousel = (props) => {
                 <div className="carousel__button--next" onClick={() => handleNextSlide(currentSlide)}></div>
                 <div className="carousel__button--prev" onClick={() => handlePreviousSlide(currentSlide)}></div>
 
-                <div id="dots">
-                    <ul>
-                        {
-                            [...Array(totalItems)].map((item, i) => (
-                                <li key={i + 1} className="carousel__dot" onClick={() => handleDotNavigation(i)}></li>
-                            )
-                            )
-                        }
-                    </ul>
-                </div>
-
+                <ul className="dots-navigation">
+                    {
+                        [...Array(totalItems)].map((item, i) => (
+                            <li key={i + 1} className="carousel__dot" onClick={() => handleDotNavigation(i)}></li>
+                        )
+                        )
+                    }
+                </ul>
             </Controls>
         </Wrapper>
     )

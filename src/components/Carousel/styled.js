@@ -86,7 +86,7 @@ export const Controls = styled.div`
         transform: translate(-50%, -50%) rotate(-45deg);
     }
 
-    div#dots ul{
+    ul.dots-navigation{
         display: flex;
         justify-content: center;
     }

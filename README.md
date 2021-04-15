@@ -39,16 +39,16 @@ export function YourPage() {
           <>
             <Carousel>
                 <ItemCarousel
-                    type="content"
-                    title="Magento 2 Extensions For ScandiPWA: Quick Guide"
-                    content="Get an update on how to implement Magento extensions in a ScandiPWA project. Learn about the difference between using a new vs existing extension."
-                    link="https://scandiweb.com/blog/magento-2-extensions-for-scandipwa-quick-guide/"
-                />
-                <ItemCarousel
-                    type="image"
-                    caption="Bulbasaur"
-                    image="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"
-                />
+                        backgroundImage="IMAGE_URL_HERE"
+                    >
+                        HTML CONTENT GOES HERE...
+                    </ItemCarousel>
+
+                    <ItemCarousel
+                        backgroundImage="IMAGE_URL_HERE"
+                    >
+                        HTML CONTENT GOES HERE...
+                    </ItemCarousel>
             </Carousel>
           </>
         )
@@ -67,34 +67,9 @@ export function YourPage() {
     </thead>
     <tbody>
         <tr>
-            <td>type</td>
-            <td>Defines what kind of item the carousel will render</td>
-            <td>content | image</td>
-        </tr>
-        <tr>
-           <td>title</td>
-           <td>Used for the context type. It renders a title for the item.</td>
-           <td>string</td>
-        </tr>
-        <tr>
-           <td>content</td>
-           <td>Used for the context type. It renders a paragraph for the item</td>
-           <td>string</td>
-        </tr>
-        <tr>
-           <td>link</td>
-           <td>Used for the context type. It renders an HTML anchor tag.</td>
-           <td>string</td>
-        </tr>
-        <tr>
-           <td>caption</td>
-           <td>Used for the image type. It renders a paragraph at the bottom of the item div.</td>
-           <td>string</td>
-        </tr>
-        <tr>
-           <td>image</td>
-           <td>Used for the image type. It renders the image URL in an image displayed on the item div.</td>
-           <td>string</td>
+            <td>backgroundImage</td>
+            <td>Path or URL of the image to be placed as background</td>
+            <td>string</td>
         </tr>
     </tbody>
   </table>
