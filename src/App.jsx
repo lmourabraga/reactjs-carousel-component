@@ -71,58 +71,6 @@ export function App() {
                             </a>
                     </ItemCarousel>
                 </Carousel>
-
-                <Carousel>
-                    <ItemCarousel
-                        backgroundImage={space1}
-                    >
-                        <h1>Slide Title 1</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet felis arcu, sed egestas lacus convallis quis. Etiam vel facilisis justo.</p>
-                        <a href="#">
-                            Read more
-                            </a>
-                    </ItemCarousel>
-
-                    <ItemCarousel
-                        backgroundImage={space2}
-                    >
-                        <h1>Slide Title 2</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet felis arcu, sed egestas lacus convallis quis. Etiam vel facilisis justo.</p>
-                        <a href="#">
-                            Read more
-                            </a>
-                    </ItemCarousel>
-
-                    <ItemCarousel
-                        backgroundImage={space3}
-                    >
-                        <h1>Slide Title 3</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet felis arcu, sed egestas lacus convallis quis. Etiam vel facilisis justo.</p>
-                        <a href="#">
-                            Read more
-                            </a>
-                    </ItemCarousel>
-
-                    <ItemCarousel
-                        backgroundImage={space4}
-                    >
-                        <h1>Slide Title 4</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet felis arcu, sed egestas lacus convallis quis. Etiam vel facilisis justo.</p>
-                        <a href="#">
-                            Read more
-                            </a>
-                    </ItemCarousel>
-
-                    <ItemCarousel
-                        backgroundImage={space6}
-                    >
-                        <h1>Slide Title 6</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet felis arcu, sed egestas lacus convallis quis. Etiam vel facilisis justo.</p>
-                        <a href="#">
-                            Read more
-                            </a>
-                    </ItemCarousel>
-                </Carousel>
             </div>
         </>
     )
